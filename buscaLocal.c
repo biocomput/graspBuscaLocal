@@ -8,18 +8,10 @@ int main(){
 	sequencesList = malloc(sizeof(Sequence));
 	sequencesList->next = NULL;
 	sequencesList->name = "toto";
-	sequencesList->value = "--234---89----45-6----";
-	GapBlock* blocks = findGapBlocks(sequencesList),*temp;
-	temp = blocks;
-	while(temp->next != NULL){
-		printf("count deb %d fin %d \n",temp->beginning, temp->end);
-		temp=temp->next;
-	}
-	//showGapBlocks(blocks);
-	//constructList();
-	//improveAlignment();
-	char* toto = insertGap("1234567890123456789", 3,5);
-	printf("WPK %s\n", toto);
+	sequencesList->value = "--2348945-6----";
+	// char* tmp = removePart(sequencesList->value,0,2);
+	// printf("%s\n", tmp);
+	computeSequence(sequencesList);
 }
 
 void showGapBlocks(GapBlock* gapArray){
@@ -32,6 +24,36 @@ void showGapBlocks(GapBlock* gapArray){
 }
 void printGapBlock(GapBlock* toShow){
 	printf("Block début : %d fin : %d\n",toShow->beginning, toShow->end);
+}
+void computeSequence(Sequence* seq){
+	GapBlock* blocks = findGapBlocks(seq),*temp;
+	temp = blocks;
+	while(temp->next != NULL){
+		moveBlock(seq,temp,blocks);
+		temp = temp->next;
+	}
+}
+void moveBlock(Sequence* seq, GapBlock* block,GapBlock* allBlocks){
+	int i;
+	char* shortStr = removePart(seq->value,block->beginning, block->end+1), *tempStr ;
+	for(i=0;i<=strlen(shortStr);i++){
+		//if(isInBlock(allBlocks,i) == 0){
+			tempStr = insertGap(shortStr,i,block->end-block->beginning+1);
+			printf("etape %d : %s\n",i,tempStr);
+		//}
+	}
+}
+int isInBlock(GapBlock* block, int i){
+	GapBlock* temp = block;
+	int ret = 0;
+	do{
+		if(i>temp->beginning && i<= temp->end){
+			ret = 1;
+			break;
+		}
+		temp = temp->next;
+	}while(temp->next != NULL);
+	return ret;
 }
 GapBlock* findGapBlocks(Sequence* seq){
  int i, size = strlen(seq->value);

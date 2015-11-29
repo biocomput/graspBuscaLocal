@@ -19,4 +19,8 @@ void showGapBlocks(GapBlock* gapArray);
 void printGapBlock(GapBlock* toShow);
 char* removePart(char* sentence, int beginning, int end);
 char* insertGap(char* sentence,int position, int n);
+
+void computeSequence(Sequence* seq);
+void moveBlock(Sequence* seq, GapBlock* block, GapBlock*);
+int isInBlock(GapBlock* block, int i);
 #endif
