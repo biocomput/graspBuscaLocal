@@ -26,18 +26,19 @@ void printGapBlock(GapBlock* toShow){
 	printf("Block début : %d fin : %d\n",toShow->beginning, toShow->end);
 }
 void computeSequence(Sequence* seq){
-	GapBlock* blocks = findGapBlocks(seq),*temp;
+	GapBlock* blocks = findGapBlocks(seq->value),*temp;
 	temp = blocks;
 	while(temp->next != NULL){
-		moveBlock(seq,temp,blocks);
+		moveBlock(seq,temp);
 		temp = temp->next;
 	}
 }
-void moveBlock(Sequence* seq, GapBlock* block,GapBlock* allBlocks){
+void moveBlock(Sequence* seq, GapBlock* block){
 	int i;
 	char* shortStr = removePart(seq->value,block->beginning, block->end+1), *tempStr ;
+	GapBlock* blockShort = findGapBlocks(shortStr);
 	for(i=0;i<=strlen(shortStr);i++){
-		if(isInBlock(allBlocks,i) == 0){
+		if(isInBlock(blockShort,i) == 0){
 			tempStr = insertGap(shortStr,i,block->end-block->beginning+1);
 			printf("etape %d : %s\n",i,tempStr);
 		}
@@ -48,7 +49,7 @@ int isInBlock(GapBlock* block, int i){
 	int ret = 0;
 	do{
 		if(i>temp->beginning && i<= temp->end){
-			printf("I : %d, beg %d end %d",i,temp->beginning,temp->end);
+			//printf("I : %d, beg %d end %d\n",i,temp->beginning,temp->end);
 			ret = 1;
 			break;
 		}
@@ -56,10 +57,10 @@ int isInBlock(GapBlock* block, int i){
 	}while(temp->next != NULL);
 	return ret;
 }
-GapBlock* findGapBlocks(Sequence* seq){
- int i, size = strlen(seq->value);
+GapBlock* findGapBlocks(char* seq){
+ int i, size = strlen(seq);
  char* str = malloc(size);
- strcpy(str, seq->value);
+ strcpy(str, seq);
  GapBlock *current, *gapArray, *before;
  gapArray = malloc(sizeof(GapBlock));
   gapArray->next = NULL;

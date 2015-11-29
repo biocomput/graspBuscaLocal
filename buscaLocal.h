@@ -14,13 +14,13 @@ typedef struct gapBlock {
 } GapBlock;
 void constructList();
 void improveAlignment();
-GapBlock *findGapBlocks(Sequence* seq);
+GapBlock *findGapBlocks(char* seq);
 void showGapBlocks(GapBlock* gapArray);
 void printGapBlock(GapBlock* toShow);
 char* removePart(char* sentence, int beginning, int end);
 char* insertGap(char* sentence,int position, int n);
 
 void computeSequence(Sequence* seq);
-void moveBlock(Sequence* seq, GapBlock* block, GapBlock*);
+void moveBlock(Sequence* seq, GapBlock* block);
 int isInBlock(GapBlock* block, int i);
 #endif
