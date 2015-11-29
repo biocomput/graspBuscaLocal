@@ -37,10 +37,10 @@ void moveBlock(Sequence* seq, GapBlock* block,GapBlock* allBlocks){
 	int i;
 	char* shortStr = removePart(seq->value,block->beginning, block->end+1), *tempStr ;
 	for(i=0;i<=strlen(shortStr);i++){
-		//if(isInBlock(allBlocks,i) == 0){
+		if(isInBlock(allBlocks,i) == 0){
 			tempStr = insertGap(shortStr,i,block->end-block->beginning+1);
 			printf("etape %d : %s\n",i,tempStr);
-		//}
+		}
 	}
 }
 int isInBlock(GapBlock* block, int i){
@@ -48,6 +48,7 @@ int isInBlock(GapBlock* block, int i){
 	int ret = 0;
 	do{
 		if(i>temp->beginning && i<= temp->end){
+			printf("I : %d, beg %d end %d",i,temp->beginning,temp->end);
 			ret = 1;
 			break;
 		}
